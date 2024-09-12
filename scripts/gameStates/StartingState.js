@@ -6,7 +6,7 @@ class StartingState extends GameState {
 
         this.intro = false;
 
-        this.addAnimation(new GameAnimation(this, 400, (data) => {
+        this.addAnimation(new GameAnimation("logoIntro", this, 3000, (data) => {
             this.gameManager.eventManager.triggerEvent("introEvent", {});
 
             const testImg = new Image();
@@ -14,15 +14,36 @@ class StartingState extends GameState {
 
             const startOpacity = 0;
             const endOpacity = 1;
+            let opacity;
 
-            const opacity = startOpacity + (endOpacity - startOpacity) * data.progress;
+            if(data.elapsedTime >= data.animationDuration-350) {
+                opacity = startOpacity - (endOpacity - startOpacity) * (data.elapsedTime - data.animationDuration) / 350;
+            } else {
+                opacity = startOpacity + (endOpacity - startOpacity) * (data.elapsedTime / 350);
+            }
 
             this.gameManager.ctx.globalAlpha = opacity;
             this.gameManager.ctx.drawImage(testImg,this.gameManager.DOC.width / 2 - 100, this.gameManager.DOC.height / 2 - 130, 200, 200);
 
             drawText(this.gameManager.ctx, 'Yahir Emmanuel', this.gameManager.DOC.width / 2, this.gameManager.DOC.height / 2 + 100, 24, 'impact', '#E1EC36', 'center', 'middle');
             this.gameManager.ctx.globalAlpha = 1;
-        },2000));
+        },1400,new GameAnimation("controlBanner", this, 3200, (data) => {
+            const controlesBanner = new Image();
+            controlesBanner.src = "./assets/controlesBanner.png";
+
+            const startOpacity = 0;
+            const endOpacity = 1;
+            let opacity;
+
+            if(data.elapsedTime >= data.animationDuration-350) {
+                opacity = startOpacity - (endOpacity - startOpacity) * (data.elapsedTime - data.animationDuration) / 350;
+            } else {
+                opacity = startOpacity + (endOpacity - startOpacity) * (data.elapsedTime / 350);
+            }
+
+            this.gameManager.ctx.globalAlpha = opacity;
+            this.gameManager.ctx.drawImage(controlesBanner,this.gameManager.DOC.width / 2 - 640, this.gameManager.DOC.height / 2 - 360, 1280, 720);
+        },200)));
     }
 
     update() {
@@ -52,9 +73,6 @@ class StartingState extends GameState {
     initEvents() {
 
         this.gameManager.eventManager.registerEvent("introEvent", (eventData) => {
-
-            console.log("INTRO");
-    
             if(!this.intro) {
                 playSound("./assets/audios/intro.ogg",1);
                 this.intro = true;

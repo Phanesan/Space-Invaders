@@ -1,9 +1,12 @@
 class GameAnimation {
 
-    constructor(gameState, animationDuration, callback, timeBeforeStart = undefined) {
+    constructor(name, gameState, animationDuration, callback, timeBeforeStart = undefined, executeAnimationAfterThis = undefined) {
+        this.name = name;
         this.gameState = gameState;
         this.animationDuration = animationDuration;
         this.callback = callback;
+
+        this.executeAnimationAfterThis = executeAnimationAfterThis;
 
         this.timeBeforeStart = timeBeforeStart;
         this.startAnimation = false;
@@ -14,6 +17,8 @@ class GameAnimation {
         this.currentTime = 0;
         this.elapsedTime = 0;
         this.progress = 0;
+
+        this.elapsedSeconds = 0;
 
         this.startTime = Date.now();
 
@@ -33,6 +38,7 @@ class GameAnimation {
             this.currentTime = Date.now();
             this.elapsedTime = this.currentTime - this.startTime;
             this.progress = this.elapsedTime / this.animationDuration;
+            this.elapsedSeconds = this.elapsedTime / 1000;
 
             if (this.progress <= 1) {
                 this.callback({
@@ -40,22 +46,25 @@ class GameAnimation {
                     elapsedTime: this.elapsedTime,
                     progress: this.progress,
                     end: this.end,
-                    instance: this
+                    instance: this,
+                    elapsedSeconds: this.elapsedSeconds,
+                    animationDuration: this.animationDuration
                 });
             } else {
-                this.end = true;
-                this.callback({
-                    currentTime: this.currentTime,
-                    elapsedTime: this.elapsedTime,
-                    progress: this.progress,
-                    end: this.end,
-                    instance: this
+                this.gameState.gameManager.eventManager.triggerEvent("endGameAnimationEvent", {
+                    name: this.name
                 });
+                this.end = true;
+                this.destroy();
             }
         }
     }
 
     destroy() {
+        if(this.executeAnimationAfterThis !== undefined) {
+            this.gameState.addAnimation(this.executeAnimationAfterThis);
+        }
+
         this.gameState.destroyAnimation(this);
     }
 }

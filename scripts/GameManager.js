@@ -59,6 +59,12 @@ class GameManager {
             console.log(`Cambio de estado: ${eventData.gameState}`);
     
         });
+
+        this.eventManager.registerEvent("endGameAnimationEvent", (eventData) => {
+            if(eventData.name === "controlBanner") {
+                console.log("MENU PRINCIPAL");
+            }
+        });
     
     }
 }
