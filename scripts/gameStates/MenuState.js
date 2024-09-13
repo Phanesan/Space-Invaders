@@ -1,14 +1,23 @@
 class MenuState extends GameState {
 
-    constructor(gameManager) {
+    constructor(gameManager, level = 1) {
         super(gameManager);
+        this.level = level;
+        this.temp = 0;
+        if(this.level === 1 || this.level === 2) {
+            this.temp = 5800;
+        } else if(this.level === 3) {
+            this.temp = 6300;
+        }
+
+        this.executed = false;
 
         this.menu = new GifDrawer(this.gameManager.ctx, "./assets/wallpaper/menu/", 0, -100, this.gameManager.DOC.width, this.gameManager.DOC.height+200, 1000, 15);
         this.gifs.push(this.menu);
 
         this.initEvents();
 
-        this.addAnimation(new GameAnimation("bannerLevel", this, 3500, (data) => {
+        this.addAnimation(new GameAnimation("bannerLevel", this, this.temp, (data) => {
             const startOpacity = 0;
             const endOpacity = 1;
             let opacity;
@@ -23,13 +32,23 @@ class MenuState extends GameState {
             }
 
             this.gameManager.ctx.globalAlpha = opacity;
-        }, 0, () => {
+        }, undefined, () => {
             console.log("termino");
             //this.gameManager.changeGameState();
         }))
     }
 
     update() {
+        if(this.executed === false) {
+            this.gameManager.ctx.globalAlpha = 0;
+            if(this.level === 1 || this.level === 2) {
+                playSound("./assets/audios/starting_level.ogg",1);
+            } else if(this.level === 3) {
+                playSound("./assets/audios/starting_level_boss.ogg",1);
+            }
+            this.executed = true;
+        }
+
         this.gameManager.keyManager.keys.forEach((key) => {
             console.log(key);
         });

@@ -1,4 +1,5 @@
 class GameManager {
+
     constructor() {
         this.gameState = null;
         this.DOC = document.getElementById("canvas");
@@ -30,7 +31,7 @@ class GameManager {
                 this.ctx.textBaseline = 'middle';
                 this.ctx.fillText('NO EXISTEN ESTADOS POR MOSTRAR', this.DOC.width / 2, this.DOC.height / 2);
             }
-            this.id = requestAnimationFrame(this.update.bind(this));
+            requestAnimationFrame(this.update.bind(this));
         }
     }
 
