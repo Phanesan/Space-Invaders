@@ -9,3 +9,13 @@
 #canvas {
     display: block;
 }
+
+@font-face {
+    font-family: 'space_invaders';
+    src: url('./assets/fonts/LeagueGothic-Regular.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'space_invaders_text';
+    src: url('./assets/fonts/Oswald-RegularItalic.ttf') format('opentype');
+}

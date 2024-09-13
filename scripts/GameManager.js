@@ -17,7 +17,6 @@ class GameManager {
 
     update() {
         if(this.pause === false) {
-            console.log("update");
             this.DOC.width = document.body.clientWidth;
             this.DOC.height = document.body.clientHeight;
     

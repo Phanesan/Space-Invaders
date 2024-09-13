@@ -42,7 +42,7 @@ class GameAnimation {
             this.animationTime = this.elapsedTime;
             this.progress = this.elapsedTime / this.animationDuration;
             this.elapsedSeconds = this.elapsedTime / 1000;
-            console.log(this.elapsedTime)
+            //console.log(this.elapsedTime)
             if (this.progress <= 1) {
                 this.callback({
                     currentTime: this.currentTime,
@@ -65,7 +65,11 @@ class GameAnimation {
 
     destroy() {
         if(this.executeAnimationAfterThis !== undefined) {
-            this.gameState.addAnimation(this.executeAnimationAfterThis);
+            if(this.executeAnimationAfterThis instanceof GameAnimation) {
+                this.gameState.addAnimation(this.executeAnimationAfterThis);
+            } else {
+                this.executeAnimationAfterThis();
+            }
         }
 
         this.gameState.destroyAnimation(this);

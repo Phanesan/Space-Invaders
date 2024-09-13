@@ -25,7 +25,7 @@ class StartingState extends GameState {
             this.gameManager.ctx.globalAlpha = opacity;
             this.gameManager.ctx.drawImage(testImg,this.gameManager.DOC.width / 2 - 100, this.gameManager.DOC.height / 2 - 130, 200, 200);
 
-            drawText(this.gameManager.ctx, 'Yahir Emmanuel', this.gameManager.DOC.width / 2, this.gameManager.DOC.height / 2 + 100, 24, 'impact', '#E1EC36', 'center', 'middle');
+            drawText(this.gameManager.ctx, 'Yahir Emmanuel', this.gameManager.DOC.width / 2, this.gameManager.DOC.height / 2 + 100, 24, 'impact', '#E1EC36', 'center', 'middle', 0);
             this.gameManager.ctx.globalAlpha = 1;
         },1400,new GameAnimation("controlBanner", this, 3200, (data) => {
             const controlesBanner = new Image();
