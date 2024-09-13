@@ -18,6 +18,8 @@ class GameAnimation {
         this.elapsedTime = 0;
         this.progress = 0;
 
+        this.animationTime = 0;
+
         this.elapsedSeconds = 0;
 
         this.startTime = Date.now();
@@ -37,9 +39,10 @@ class GameAnimation {
         } else {
             this.currentTime = Date.now();
             this.elapsedTime = this.currentTime - this.startTime;
+            this.animationTime = this.elapsedTime;
             this.progress = this.elapsedTime / this.animationDuration;
             this.elapsedSeconds = this.elapsedTime / 1000;
-
+            console.log(this.elapsedTime)
             if (this.progress <= 1) {
                 this.callback({
                     currentTime: this.currentTime,
@@ -66,5 +69,13 @@ class GameAnimation {
         }
 
         this.gameState.destroyAnimation(this);
+    }
+
+    pause() {
+        this.startTime = this.currentTime;
+    }
+
+    resume() {
+        this.startTime = Date.now()-this.animationTime;
     }
 }

@@ -4,6 +4,7 @@ class GameState {
         this.gameManager = gameManager;
         this.gameObjects = [];
         this.animations = [];
+        this.gifs = [];
     }
 
     update() {
@@ -35,5 +36,11 @@ class GameState {
     }
 
     initEvents() {
+    }
+
+    onPause() {  
+    }
+
+    onResume() {
     }
 }

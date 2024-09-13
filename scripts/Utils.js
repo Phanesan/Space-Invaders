@@ -11,3 +11,8 @@ function drawText(ctx, text, x, y, fontSize, font, color, textAlign = 'center', 
     ctx.textBaseline = textBaseline;
     ctx.fillText(text, x, y);
 }
+
+function drawRect(ctx, x, y, width, height, color) {
+    ctx.fillStyle = color;
+    ctx.fillRect(x, y, width, height);
+}

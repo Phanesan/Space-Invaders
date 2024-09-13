@@ -81,4 +81,16 @@ class StartingState extends GameState {
     
     }
 
+    onPause() {
+        this.animations.forEach((animation) => {
+            animation.pause();
+        });
+    }
+
+    onResume() {
+        this.animations.forEach((animation) => {
+            animation.resume();
+        });
+    }
+
 }

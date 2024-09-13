@@ -6,35 +6,33 @@ class GameManager {
 
         this.keyManager = new KeyManager();
         this.eventManager = new EventManager();
+        this.pause = false;
 
         // iniciar eventos
-        this.initEvents(this.eventManager);
+        this.initEvents();
 
         // iniciar el juego
         this.changeGameState(new StartingState(this));
     }
 
     update() {
-        this.DOC.width = document.body.clientWidth;
-        this.DOC.height = document.body.clientHeight;
-
-        // Manejador de eventos de teclado
-        this.keyManager.keys.forEach((key) => {
-            console.log(key);
-        });
-
-        if(this.gameState !== null) {
-            this.gameState.update();
-            this.paint();
-        } else {
-            this.ctx.font = '40px Arial';
-            this.ctx.fillStyle = 'red';
-            this.ctx.textAlign = 'center';
-            this.ctx.textBaseline = 'middle';
-            this.ctx.fillText('NO EXISTEN ESTADOS POR MOSTRAR', this.DOC.width / 2, this.DOC.height / 2);
+        if(this.pause === false) {
+            console.log("update");
+            this.DOC.width = document.body.clientWidth;
+            this.DOC.height = document.body.clientHeight;
+    
+            if(this.gameState !== null) {
+                this.gameState.update();
+                this.paint();
+            } else {
+                this.ctx.font = '40px Arial';
+                this.ctx.fillStyle = 'red';
+                this.ctx.textAlign = 'center';
+                this.ctx.textBaseline = 'middle';
+                this.ctx.fillText('NO EXISTEN ESTADOS POR MOSTRAR', this.DOC.width / 2, this.DOC.height / 2);
+            }
+            this.id = requestAnimationFrame(this.update.bind(this));
         }
-
-        requestAnimationFrame(this.update.bind(this));
     }
 
     paint() {
@@ -50,19 +48,30 @@ class GameManager {
     }
 
     start() {
-        this.update();
+        this.id = requestAnimationFrame(this.update.bind(this));
     }
 
     initEvents() {
 
+        window.addEventListener("focus", () => {
+            this.pause = false;
+            this.gameState.onResume();
+            this.start();
+        })
+        
+        window.addEventListener("blur", () => {
+            this.pause = true;
+            this.gameState.onPause();
+        })
+
         this.eventManager.registerEvent("changeEvent", (eventData) => {
-            console.log(`Cambio de estado: ${eventData.gameState}`);
+            console.log(`Cambio de estado: ${eventData.gameState.constructor.name}`);
     
         });
 
         this.eventManager.registerEvent("endGameAnimationEvent", (eventData) => {
             if(eventData.name === "controlBanner") {
-                console.log("MENU PRINCIPAL");
+                this.changeGameState(new MenuState(this));
             }
         });
     
