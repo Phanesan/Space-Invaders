@@ -4,6 +4,7 @@ class GameManager {
         this.gameState = null;
         this.DOC = document.getElementById("canvas");
         this.ctx = this.DOC.getContext("2d");
+        this.debug = true;
 
         this.keyManager = new KeyManager();
         this.eventManager = new EventManager();
@@ -23,7 +24,6 @@ class GameManager {
             this.DOC.height = document.body.clientHeight;
 
             if(this.gameState !== null) {
-                //console.log("=========================")
                 this.CodeBlocksOfASingleEjecution.forEach((code) => {
                     code();
                 });
@@ -31,8 +31,6 @@ class GameManager {
 
                 this.gameState.update();
                 this.paint();
-                //console.log("1: ",this.ctx.globalAlpha);
-                //console.log("=========================")
             } else {
                 this.ctx.font = '40px Arial';
                 this.ctx.fillStyle = 'red';
@@ -71,10 +69,6 @@ class GameManager {
         window.addEventListener("blur", () => {
             this.pause = true;
             this.gameState.onPause();
-        })
-
-        document.addEventListener("click", (event) => {
-            
         })
 
         this.eventManager.registerEvent("changeEvent", (eventData) => {

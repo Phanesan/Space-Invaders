@@ -33,6 +33,14 @@ class GifDrawer {
     setHeight(height) {
         this.height = height;
     }
+
+    setX(x) {
+        this.x = x;
+    }
+
+    setY(y) {
+        this.y = y;
+    }
     
     draw() {
         this.currentTime = Date.now();

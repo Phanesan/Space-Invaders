@@ -26,3 +26,12 @@ function drawRect(ctx, x, y, width, height, color, opacity = 1) {
     ctx.fillRect(x, y, width, height);
     ctx.globalAlpha = 1;
 }
+
+// funcion para hacer un cuadrado sin relleno
+function drawSquare(ctx, x, y, width, height, color, lineWidth = 2, opacity = 1) {
+    ctx.globalAlpha = opacity;
+    ctx.strokeStyle = color;
+    ctx.lineWidth = lineWidth;
+    ctx.strokeRect(x, y, width, height);
+    ctx.globalAlpha = 1;
+}

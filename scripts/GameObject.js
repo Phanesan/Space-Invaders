@@ -5,8 +5,9 @@ class GameObject {
         return ID_COUNTER++;
     }
 
-    constructor(name, x, y, width, height, asset = null) {
+    constructor(gameState, name, x, y, width, height, asset = null) {
         this.ID = GameObject.nextID();
+        this.gameState = gameState;
         this.name = name;
         this.x = x;
         this.y = y;
