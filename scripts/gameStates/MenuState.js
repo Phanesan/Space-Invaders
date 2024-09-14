@@ -13,9 +13,18 @@ class MenuState extends GameState {
         this.executed = false;
 
         this.menu = new GifDrawer(this.gameManager.ctx, "./assets/wallpaper/menu/", 0, -100, this.gameManager.DOC.width, this.gameManager.DOC.height+200, 1000, 15);
-        this.gifs.push(this.menu);
+        this.addGif(this.menu);
 
         this.initEvents();
+
+        this.gameManager.executeCodeOnce(() => {
+            this.gameManager.ctx.globalAlpha = 0;
+            if(this.level === 1 || this.level === 2) {
+                playSound("./assets/audios/starting_level.ogg",1);
+            } else if(this.level === 3) {
+                playSound("./assets/audios/starting_level_boss.ogg",1);
+            }
+        });
 
         this.addAnimation(new GameAnimation("bannerLevel", this, this.temp, (data) => {
             const startOpacity = 0;
@@ -24,8 +33,8 @@ class MenuState extends GameState {
 
             const fadeIn = 350;
             const fadeOut = 350;
-
-            if(data.elapsedTime >= data.animationDuration-fadeOut) {
+            
+            if(data.elapsedTime > data.animationDuration-fadeOut) {
                 opacity = startOpacity - (endOpacity - startOpacity) * (data.elapsedTime - data.animationDuration) / fadeOut;
             } else {
                 opacity = startOpacity + (endOpacity - startOpacity) * (data.elapsedTime / fadeIn);
@@ -33,22 +42,12 @@ class MenuState extends GameState {
 
             this.gameManager.ctx.globalAlpha = opacity;
         }, undefined, () => {
-            console.log("termino");
-            //this.gameManager.changeGameState();
+            this.gameManager.ctx.globalAlpha = 0;
+            this.gameManager.changeGameState(new LevelState(this.gameManager, this.level));
         }))
     }
 
     update() {
-        if(this.executed === false) {
-            this.gameManager.ctx.globalAlpha = 0;
-            if(this.level === 1 || this.level === 2) {
-                playSound("./assets/audios/starting_level.ogg",1);
-            } else if(this.level === 3) {
-                playSound("./assets/audios/starting_level_boss.ogg",1);
-            }
-            this.executed = true;
-        }
-
         this.gameManager.keyManager.keys.forEach((key) => {
             console.log(key);
         });

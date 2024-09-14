@@ -43,7 +43,9 @@ class StartingState extends GameState {
 
             this.gameManager.ctx.globalAlpha = opacity;
             this.gameManager.ctx.drawImage(controlesBanner,this.gameManager.DOC.width / 2 - 640, this.gameManager.DOC.height / 2 - 360, 1280, 720);
-        },200)));
+        },200, () => {
+            this.gameManager.ctx.globalAlpha = 0;
+        })));
     }
 
     update() {

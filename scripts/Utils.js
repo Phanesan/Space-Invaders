@@ -2,6 +2,8 @@ function playSound(URL, volume = 1) {
     const audio = new Audio(URL);
     audio.volume = volume;
     audio.play();
+
+    return audio;
 }
 
 function drawText(ctx, text, x, y, fontSize, font, color, textAlign = 'center', textBaseline = 'middle', lineWidth = 2, strokeColor = 'black') {
@@ -18,7 +20,9 @@ function drawText(ctx, text, x, y, fontSize, font, color, textAlign = 'center', 
     ctx.strokeText(text, x, y);
 }
 
-function drawRect(ctx, x, y, width, height, color) {
+function drawRect(ctx, x, y, width, height, color, opacity = 1) {
+    ctx.globalAlpha = opacity;
     ctx.fillStyle = color;
     ctx.fillRect(x, y, width, height);
+    ctx.globalAlpha = 1;
 }

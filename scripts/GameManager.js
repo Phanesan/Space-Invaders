@@ -7,23 +7,32 @@ class GameManager {
 
         this.keyManager = new KeyManager();
         this.eventManager = new EventManager();
+        this.CodeBlocksOfASingleEjecution = [];
         this.pause = false;
 
         // iniciar eventos
         this.initEvents();
 
         // iniciar el juego
-        this.changeGameState(new StartingState(this));
+        this.changeGameState(new LevelState(this));
     }
 
     update() {
         if(this.pause === false) {
             this.DOC.width = document.body.clientWidth;
             this.DOC.height = document.body.clientHeight;
-    
+
             if(this.gameState !== null) {
+                //console.log("=========================")
+                this.CodeBlocksOfASingleEjecution.forEach((code) => {
+                    code();
+                });
+                this.CodeBlocksOfASingleEjecution = [];
+
                 this.gameState.update();
                 this.paint();
+                //console.log("1: ",this.ctx.globalAlpha);
+                //console.log("=========================")
             } else {
                 this.ctx.font = '40px Arial';
                 this.ctx.fillStyle = 'red';
@@ -64,6 +73,10 @@ class GameManager {
             this.gameState.onPause();
         })
 
+        document.addEventListener("click", (event) => {
+            
+        })
+
         this.eventManager.registerEvent("changeEvent", (eventData) => {
             console.log(`Cambio de estado: ${eventData.gameState.constructor.name}`);
     
@@ -75,5 +88,9 @@ class GameManager {
             }
         });
     
+    }
+
+    executeCodeOnce(functionCode) {
+        this.CodeBlocksOfASingleEjecution.push(functionCode);
     }
 }

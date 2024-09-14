@@ -38,6 +38,14 @@ class GameState {
     initEvents() {
     }
 
+    addGif(gif) {
+        this.gifs.push(gif);
+    }
+
+    destroyGif(gif) {
+        this.gifs = this.gifs.filter(element => element !== gif);
+    }
+
     onPause() {  
     }
 
