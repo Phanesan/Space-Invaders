@@ -1,6 +1,7 @@
 class GifDrawer {
-    constructor(ctx, Path, x, y, width, height, animationDuration, numImages) {
-        this.ctx = ctx;
+    constructor(gameState, Path, x, y, width, height, animationDuration, numImages, angle = 0) {
+        this.gameState = gameState;
+        this.ctx = gameState.gameManager.ctx;
         this.Path = Path;
         this.x = x;
         this.y = y;
@@ -9,6 +10,7 @@ class GifDrawer {
         this.numImages = numImages;
         this.currentImage = 0;
         this.animationDuration = animationDuration;
+        this.angle = angle * Math.PI / 180;
 
         this.currentTime = 0;
         this.elapsedTime = 0;
@@ -47,8 +49,11 @@ class GifDrawer {
         this.elapsedTime = this.currentTime - this.startTime;
         this.progress = this.elapsedTime / this.animationDuration;
 
-        this.ctx.drawImage(this.images[this.currentImage], this.x, this.y, this.width, this.height);
-        //console.log(this.elapsedTime)
+        this.ctx.save();
+        this.ctx.translate(this.x + (this.width / 2), this.y + (this.height / 2));
+        this.ctx.rotate(this.angle);
+        this.ctx.drawImage(this.images[this.currentImage], this.width / -2, this.height / -2, this.width, this.height);
+        this.ctx.restore();
         if(this.elapsedTime >= this.temp) {
             //console.log(this.currentImage);
             this.temp += this.timeBeforeSwitch;

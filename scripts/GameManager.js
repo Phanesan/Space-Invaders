@@ -4,7 +4,7 @@ class GameManager {
         this.gameState = null;
         this.DOC = document.getElementById("canvas");
         this.ctx = this.DOC.getContext("2d");
-        this.debug = true;
+        this.debug = false;
 
         this.keyManager = new KeyManager();
         this.eventManager = new EventManager();
@@ -80,6 +80,11 @@ class GameManager {
             if(eventData.name === "controlBanner") {
                 this.changeGameState(new MenuState(this));
             }
+        });
+
+        this.eventManager.registerEvent("onEnemyDestroyed", (eventData) => {
+            this.gameState.destroyGif(eventData.enemyAsset);
+            this.gameState.destroyGameObject(eventData.ID);
         });
     
     }

@@ -35,3 +35,11 @@ function drawSquare(ctx, x, y, width, height, color, lineWidth = 2, opacity = 1)
     ctx.strokeRect(x, y, width, height);
     ctx.globalAlpha = 1;
 }
+
+function drawImage(ctx, img, x, y, width, height, angle) {
+    ctx.save();
+    ctx.translate(x + (width / 2), y + (height / 2));
+    ctx.rotate(angle * Math.PI / 180);
+    ctx.drawImage(img, width / -2, height / -2, width, height);
+    ctx.restore();
+}

@@ -27,5 +27,12 @@ class GameObject {
     collision(other) {
         console.log(`collision ${other.name}`);
     }
+
+    intersects(other) {
+        return this.x < other.x + other.width &&
+            this.x + this.width > other.x &&
+            this.y < other.y + other.height &&
+            this.y + this.height > other.y;
+    }
     
 }

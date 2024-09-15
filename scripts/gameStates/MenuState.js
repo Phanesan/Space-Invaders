@@ -12,7 +12,7 @@ class MenuState extends GameState {
 
         this.executed = false;
 
-        this.menu = new GifDrawer(this.gameManager.ctx, "./assets/wallpaper/menu/", 0, -100, this.gameManager.DOC.width, this.gameManager.DOC.height+200, 1000, 15);
+        this.menu = new GifDrawer(this.gameManager, "./assets/wallpaper/menu/", 0, -100, this.gameManager.DOC.width, this.gameManager.DOC.height+200, 1000, 15);
         this.addGif(this.menu);
 
         this.initEvents();

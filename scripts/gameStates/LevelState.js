@@ -6,7 +6,7 @@ class LevelState extends GameState {
         this.level = level;
 
         if(this.level === 1) {
-            this.soundtrack = new Soundtrack(this, "./assets/audios/level_1.ogg", 16.340, 0.2);
+            this.soundtrack = new Soundtrack(this, "./assets/audios/level_1.ogg", 16.340, 0.25);
         }
 
         // Fondo
@@ -53,8 +53,10 @@ class LevelState extends GameState {
         }, undefined, undefined, true));
 
         // Nave jugador
-
         this.addGameObject(new Player(this, "player", this.gameManager.DOC.width / 2, this.gameManager.DOC.height / 2 + 360, 60, 40, "./assets/spacecraft/"));
+
+        // Enemigos
+        //this.addGameObject(new EnemySpacecraft(this, "enemy", 600, 30, 60, 55, "./assets/enemy_1/", 30));
 
         this.gameManager.executeCodeOnce(() => {
             this.soundtrack.play();
@@ -98,10 +100,16 @@ class LevelState extends GameState {
 
     onPause() {
         this.soundtrack.audioSource.pause();
+        this.gifs.forEach((gif) => {
+            gif.pause();
+        });
     }
 
     onResume() {
         this.soundtrack.audioSource.play();
+        this.gifs.forEach((gif) => {
+            gif.resume();
+        });
     }
 
 }

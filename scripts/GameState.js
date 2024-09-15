@@ -23,8 +23,8 @@ class GameState {
         this.gameObjects.push(obj);
     }
 
-    destroyGameObject(obj) {
-        this.gameObjects = this.gameObjects.filter(element => element !== obj);
+    destroyGameObject(ID) {
+        this.gameObjects = this.gameObjects.filter(element => element.ID !== ID);
     }
 
     getGameObject(name) {
