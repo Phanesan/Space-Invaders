@@ -91,15 +91,23 @@ class GameManager {
                 this.gameState.enemyWaveSystem.enemiesCleared++;
                 this.gameState.enemyWaveSystem.livingEnemies--;
             }
-            if(probability(1)) {
+            if(probability(0.9)) {
                 this.gameState.addGameObject(new Star(this.gameState, "star", eventData.x, eventData.y, 50, 50, "./assets/star/"));
             }
         });
 
         this.eventManager.registerEvent("onPlayerDestroyed", (eventData) => {
-            // TODO: mostrar pantalla de game over
             this.gameState.destroyGif(eventData.playerAsset);
             this.gameState.destroyGameObject(eventData.ID);
+            this.gameState.soundtrack.volume(0);
+
+            this.gameState.gameOver = true;
+        });
+
+        this.eventManager.registerEvent("onPlayerWin", (eventData) => {
+            this.gameState.soundtrack.volume(0);
+            this.gameState.soundtrack = new Soundtrack(this.gameState, "./assets/audios/cleared.ogg", 0.535, 0.5);
+            this.gameState.soundtrack.play();
         });
     
     }

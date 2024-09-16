@@ -5,6 +5,9 @@ class LevelState extends GameState {
         this.initEvents();
         this.level = level;
         this.enemyWaveSystem = new EnemyWaves(this);
+        this.gameOver = false;
+        this.score = 0;
+        this.soundtrack = null;
 
         this.starUI = new GifDrawer(this.gameManager, "./assets/star/", 15, 18, 40, 40, 1400, 7);
         this.addGif(this.starUI);
@@ -65,15 +68,23 @@ class LevelState extends GameState {
         this.gameManager.executeCodeOnce(() => {
             this.soundtrack.play();
         })
+
+        this.currentTime = 0;
+        this.startTime = Date.now();
+        this.elapsedTime = 0;
     }
 
     update() {
-        this.levelUpProgressBar.update(this.player.levelUpProgress, 70, 20, this.player.levelUpGoal);
+        if(!this.gameOver && !this.enemyWaveSystem.win) {
+            this.currentTime = Date.now();
+            this.elapsedTime = (this.currentTime - this.startTime) / 1000;
 
-        this.enemyWaveSystem.update();
-
+            this.levelUpProgressBar.update(this.player.levelUpProgress, 70, 20, this.player.levelUpGoal);
+    
+            this.enemyWaveSystem.update();
+        }
         this.soundtrack.update();
-
+    
         //console.log(this.gameObjects);
         this.gameObjects.forEach((obj) => {
             obj.update();
@@ -103,6 +114,22 @@ class LevelState extends GameState {
 
     UI() {
         this.levelUpProgressBar.paint();
+
+        drawText(this.gameManager.ctx, "Oleada: " + this.enemyWaveSystem.currentWave + "/" + this.enemyWaveSystem.totalWaves, 230, this.gameManager.DOC.height - 30, 40, "space_invaders_text", "white", "right");
+    
+        if(this.gameOver) {
+            drawRect(this.gameManager.ctx, 0,0, this.gameManager.DOC.width, this.gameManager.DOC.height, "black", 0.4);
+            drawText(this.gameManager.ctx, "GAME OVER", this.gameManager.DOC.width / 2, this.gameManager.DOC.height / 2 - 200, 60, "space_invaders", "white");
+            drawText(this.gameManager.ctx, `Tiempo: ${Math.floor(this.elapsedTime)}`, this.gameManager.DOC.width / 2, this.gameManager.DOC.height / 2 - 130, 30, "space_invaders_text", "white", "center", "middle", 0, "transparent");
+            drawText(this.gameManager.ctx, `Puntaje: ${this.score}`, this.gameManager.DOC.width / 2, this.gameManager.DOC.height / 2 - 80, 30, "space_invaders_text", "white", "center", "middle", 0, "transparent");
+            drawText(this.gameManager.ctx, "Recargue la pagina para jugar denuevo", this.gameManager.DOC.width / 2, this.gameManager.DOC.height / 2, 30, "space_invaders_text", "white", "center", "middle", 0, "transparent");
+        } else if(this.enemyWaveSystem.win) {
+            drawRect(this.gameManager.ctx, 0,0, this.gameManager.DOC.width, this.gameManager.DOC.height, "black", 0.4);
+            drawText(this.gameManager.ctx, "OLEADAS COMPLETADAS", this.gameManager.DOC.width / 2, this.gameManager.DOC.height / 2 - 200, 60, "space_invaders", "white");
+            drawText(this.gameManager.ctx, `Tiempo: ${Math.floor(this.elapsedTime)}`, this.gameManager.DOC.width / 2, this.gameManager.DOC.height / 2 - 130, 30, "space_invaders_text", "white", "center", "middle", 0, "transparent");
+            drawText(this.gameManager.ctx, `Puntaje: ${this.score}`, this.gameManager.DOC.width / 2, this.gameManager.DOC.height / 2 - 80, 30, "space_invaders_text", "white", "center", "middle", 0, "transparent");
+            drawText(this.gameManager.ctx, "Recargue la pagina para jugar denuevo", this.gameManager.DOC.width / 2, this.gameManager.DOC.height / 2, 30, "space_invaders_text", "white", "center", "middle", 0, "transparent");
+        }
     }
 
     initEvents() {}
@@ -128,6 +155,9 @@ class LevelState extends GameState {
                 break;
             case "enemyCruiser":
                 this.addGameObject(new EnemySpacecraft(this, "enemyCruiser", x, -120, 90, 85, "./assets/enemy_2/", 80));
+                break;
+            case "enemyDestroyer":
+                this.addGameObject(new EnemySpacecraft(this, "enemyDestroyer", x, -120, 150, 140, "./assets/enemy_3/", 180));
                 break;
             default:
                 this.addGameObject(new EnemySpacecraft(this, "normal", x, -120, 60, 55, "./assets/enemy_1/", 40));

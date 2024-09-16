@@ -17,6 +17,9 @@ class EnemySpacecraft extends GameObject {
         } else if(this.name === "enemyCruiser") {
             this.enemyAsset = new GifDrawer(this.gameState.gameManager, this.asset, this.x, this.y, this.width, this.height, 100, 4, 180);
             this.cooldownShot = 1300;
+        } else if(this.name === "enemyDestroyer") {
+            this.enemyAsset = new GifDrawer(this.gameState.gameManager, this.asset, this.x, this.y, this.width, this.height, 130, 2, 0);
+            this.cooldownShot = 800;
         }
         this.gameState.addGif(this.enemyAsset);
         this.lastShotTime = Date.now()+300;
@@ -63,6 +66,12 @@ class EnemySpacecraft extends GameObject {
                 } else if(this.name === "enemyCruiser") {
                     this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 18, 18, "./assets/bullet_enemy.png", this.name, 10, 3, 70, 20));
                     this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 18, 18, "./assets/bullet_enemy.png", this.name, 10, 3, 110, 340));
+                } else if(this.name === "enemyDestroyer") {
+                    this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 18, 18, "./assets/bullet_enemy.png", this.name, 10, 3, 90, 0));
+                    this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 18, 18, "./assets/bullet_enemy.png", this.name, 10, 3, 100, 350));
+                    this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 18, 18, "./assets/bullet_enemy.png", this.name, 10, 3, 110, 340));
+                    this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 18, 18, "./assets/bullet_enemy.png", this.name, 10, 3, 80, 10));
+                    this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 18, 18, "./assets/bullet_enemy.png", this.name, 10, 3, 70, 20));
                 }
             }
     
@@ -74,6 +83,7 @@ class EnemySpacecraft extends GameObject {
     
             if(this.health <= 0) {
                 this.gameState.gameManager.eventManager.triggerEvent("onEnemyDestroyed", this);
+                playSound("./assets/audios/spacecraft_destroyed.ogg", 0.4);
             }
         }
     }
@@ -88,6 +98,18 @@ class EnemySpacecraft extends GameObject {
                 if(other.sourceEntity !== this.name) {
                     this.health -= other.damageBullet;
                     this.gameState.destroyGameObject(other.ID);
+                    playSound("./assets/audios/hit_enemy.ogg", 0.7);
+                    switch(this.name) {
+                        case "normal":
+                            this.gameState.score+=10;
+                            break;
+                        case "enemyCruiser":
+                            this.gameState.score+=30;
+                            break;
+                        case "enemyDestroyer":
+                            this.gameState.score+=50;
+                            break;
+                    }
                 }
                 break;
         }

@@ -17,7 +17,12 @@ class Soundtrack {
 
     update() {
         if(this.audioSource.currentTime >= this.audioSource.duration - 0.100000) {
+            console.log(`currentTime: ${this.audioSource.currentTime}, duration: ${this.audioSource.duration-0.100000}`);
             this.audioSource.currentTime = this.startLoopTime;
         }
-    } 
+    }
+
+    volume(value) {
+        this.audioSource.volume = value;
+    }
 }

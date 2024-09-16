@@ -8,6 +8,7 @@ class EnemyWaves {
 
         this.limitEnemiesPerWave = 30;
         this.limitBaseEnemiesSpawn = 10;
+        this.totalWaves = 30;
 
         this.timeBeetweenDiceRolls = 7000;
         this.totalEnemiesPerWave = 8;
@@ -18,6 +19,8 @@ class EnemyWaves {
         this.livingEnemies = 0;
         this.enemiesSpawned = 0;
         this.enemiesCleared = 0;
+
+        this.win = false;
     }
 
     update() {
@@ -152,9 +155,17 @@ class EnemyWaves {
                         break;
                 }
 
-                this.currentWave++;
-                this.enemiesSpawned = 0;
-                this.enemiesCleared = 0;
+                if(this.currentWave === this.totalWaves) {
+                    if(this.win === false) {
+                        this.gameState.gameManager.eventManager.triggerEvent("onPlayerWin", {});
+                        this.win = true;
+                    }
+                } else {
+                    this.currentWave++;
+                    this.enemiesSpawned = 0;
+                    this.enemiesCleared = 0;
+                }
+
                 //console.log(`currentWave: ${this.currentWave}`);
             }
 
