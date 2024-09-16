@@ -1,7 +1,7 @@
 class GifDrawer {
-    constructor(gameState, Path, x, y, width, height, animationDuration, numImages, angle = 0) {
-        this.gameState = gameState;
-        this.ctx = gameState.gameManager.ctx;
+    constructor(gameManager, Path, x, y, width, height, animationDuration, numImages, angle = 0) {
+        this.gameManager = gameManager;
+        this.ctx = gameManager.ctx;
         this.Path = Path;
         this.x = x;
         this.y = y;

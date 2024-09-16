@@ -1,7 +1,8 @@
 class BulletFired extends GameObject {
 
-    constructor(gameState, name, x, y, width, height, asset = null, damageBullet, speed, angleShot = 0, angleDraw = 0) {
+    constructor(gameState, name, x, y, width, height, asset = null, sourceEntity, damageBullet, speed, angleShot = 0, angleDraw = 0) {
         super(gameState, name, x, y, width, height, asset);
+        this.sourceEntity = sourceEntity;
 
         this.angleShot = (angleShot) * Math.PI / 180;
         this.angleDraw = angleDraw;

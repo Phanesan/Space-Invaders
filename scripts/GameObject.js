@@ -1,5 +1,3 @@
-let ID_COUNTER = 1000;
-
 class GameObject {
     static nextID() {
         return ID_COUNTER++;

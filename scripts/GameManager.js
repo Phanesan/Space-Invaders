@@ -1,10 +1,12 @@
+let ID_COUNTER = 1000;
+
 class GameManager {
 
     constructor() {
         this.gameState = null;
         this.DOC = document.getElementById("canvas");
         this.ctx = this.DOC.getContext("2d");
-        this.debug = false;
+        this.debug = true;
 
         this.keyManager = new KeyManager();
         this.eventManager = new EventManager();
@@ -84,6 +86,12 @@ class GameManager {
 
         this.eventManager.registerEvent("onEnemyDestroyed", (eventData) => {
             this.gameState.destroyGif(eventData.enemyAsset);
+            this.gameState.destroyGameObject(eventData.ID);
+        });
+
+        this.eventManager.registerEvent("onPlayerDestroyed", (eventData) => {
+            // TODO: mostrar pantalla de game over
+            this.gameState.destroyGif(eventData.playerAsset);
             this.gameState.destroyGameObject(eventData.ID);
         });
     

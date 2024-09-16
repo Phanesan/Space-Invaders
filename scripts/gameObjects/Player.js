@@ -11,7 +11,7 @@ class Player extends GameObject {
         this.lastX = x;
         this.lastY = y;
 
-        this.playerAsset = new GifDrawer(this.gameState, this.asset, this.x, this.y, this.width, this.height, 100, 1)
+        this.playerAsset = new GifDrawer(this.gameState.gameManager, this.asset, this.x, this.y, this.width, this.height, 100, 1)
         this.gameState.addGif(this.playerAsset);
 
         this.cooldownShot = 600;
@@ -48,37 +48,56 @@ class Player extends GameObject {
                     playSound("./assets/audios/laser_shot.ogg", 0.3);
                     if(this.levelSpacecraft === 0) {
                         this.cooldownShot = 600;
-                        this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 8, 36, "./assets/bullet.png", this.damageByShot, 6, 270, 0));
+                        this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 8, 36, "./assets/bullet.png", this.name, this.damageByShot, 6, 270, 0));
                     } else if(this.levelSpacecraft === 1) {
                         this.cooldownShot = 400;
-                        this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 8, 36, "./assets/bullet.png", this.damageByShot, 6, 270, 0));
+                        this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 8, 36, "./assets/bullet.png", this.name, this.damageByShot, 6, 270, 0));
                     } else if(this.levelSpacecraft === 2) {
                         this.cooldownShot = 360;
-                        this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 3), this.y + (this.height / 2) - 30, 8, 36, "./assets/bullet.png", this.damageByShot, 6, 270, 0));
-                        this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 3) + (this.width / 3), this.y + (this.height / 2) - 30, 8, 36, "./assets/bullet.png", this.damageByShot, 6, 270, 0));
+                        this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 3), this.y + (this.height / 2) - 30, 8, 36, "./assets/bullet.png", this.name, this.damageByShot, 6, 270, 0));
+                        this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 3) + (this.width / 3), this.y + (this.height / 2) - 30, 8, 36, "./assets/bullet.png", this.name, this.damageByShot, 6, 270, 0));
                     } else if(this.levelSpacecraft === 3) {
                         this.cooldownShot = 250;
-                        this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 8, 36, "./assets/bullet.png", this.damageByShot, 6, 270, 0));
-                        this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 8, 36, "./assets/bullet.png", this.damageByShot, 6, 260, 350));
-                        this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 8, 36, "./assets/bullet.png", this.damageByShot, 6, 280, 10));
+                        this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 8, 36, "./assets/bullet.png", this.name, this.damageByShot, 6, 270, 0));
+                        this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 8, 36, "./assets/bullet.png", this.name, this.damageByShot, 6, 260, 350));
+                        this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 8, 36, "./assets/bullet.png", this.name, this.damageByShot, 6, 280, 10));
                     } else if(this.levelSpacecraft === 4) {
                         this.cooldownShot = 150;
-                        this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 8, 36, "./assets/bullet.png", this.damageByShot, 6, 270, 0));
-                        this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 8, 36, "./assets/bullet.png", this.damageByShot, 6, 260, 350));
-                        this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 8, 36, "./assets/bullet.png", this.damageByShot, 6, 280, 10));
-                        this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 8, 36, "./assets/bullet.png", this.damageByShot, 6, 250, 340));
-                        this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 8, 36, "./assets/bullet.png", this.damageByShot, 6, 290, 20));
+                        this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 8, 36, "./assets/bullet.png", this.name, this.damageByShot, 6, 270, 0));
+                        this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 8, 36, "./assets/bullet.png", this.name, this.damageByShot, 6, 260, 350));
+                        this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 8, 36, "./assets/bullet.png", this.name, this.damageByShot, 6, 280, 10));
+                        this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 8, 36, "./assets/bullet.png", this.name, this.damageByShot, 6, 250, 340));
+                        this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 8, 36, "./assets/bullet.png", this.name, this.damageByShot, 6, 290, 20));
                     }
                 }
             }
         });
         this.playerAsset.setX(this.x);
         this.playerAsset.setY(this.y);
+
+        this.gameState.gameObjects.forEach((obj) => {
+            if(obj !== this && this.intersects(obj)) {
+                this.collision(obj);
+            }
+        })
+
+        if(this.health <= 0) {
+            this.gameState.gameManager.eventManager.triggerEvent("onPlayerDestroyed", this);
+        }
     }
 
     paint() {
         this.healthBar.paint();
     }
 
-    collision(other) {}
+    collision(other) {
+        switch(other.name) {
+            case "bulletFired":
+                if(other.sourceEntity !== this.name) {
+                    this.health -= other.damageBullet;
+                    this.gameState.destroyGameObject(other.ID);
+                }
+                break;
+        }
+    }
 }

@@ -35,8 +35,9 @@ class GameState {
         this.animations.push(animation);
     }
 
-    destroyAnimation(animation) {
-        this.animations = this.animations.filter(element => element !== animation);
+    destroyAnimation(ID) {
+        this.animations = this.animations.filter(element => element.ID !== ID);
+        
     }
 
     initEvents() {

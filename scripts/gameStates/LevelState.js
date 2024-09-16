@@ -55,8 +55,7 @@ class LevelState extends GameState {
         // Nave jugador
         this.addGameObject(new Player(this, "player", this.gameManager.DOC.width / 2, this.gameManager.DOC.height / 2 + 360, 60, 40, "./assets/spacecraft/"));
 
-        // Enemigos
-        //this.addGameObject(new EnemySpacecraft(this, "enemy", 600, 30, 60, 55, "./assets/enemy_1/", 30));
+        this.spawnEnemy("enemySpacecraft");
 
         this.gameManager.executeCodeOnce(() => {
             this.soundtrack.play();
@@ -110,6 +109,18 @@ class LevelState extends GameState {
         this.gifs.forEach((gif) => {
             gif.resume();
         });
+    }
+
+    spawnEnemy(type, x = Math.floor(Math.random()*((this.gameManager.DOC.width-320)-320+1)) + 320,
+                    y = Math.floor(Math.random()*((this.gameManager.DOC.height/2+50)-25+1)) + 25) {
+        switch(type) {
+            case "enemySpacecraft":
+                this.addGameObject(new EnemySpacecraft(this, "enemy", x, -120, 60, 55, "./assets/enemy_1/", 30));
+                break;
+            default:
+                this.addGameObject(new EnemySpacecraft(this, "enemy", x, -120, 60, 55, "./assets/enemy_1/", 30));
+                break;
+        }
     }
 
 }

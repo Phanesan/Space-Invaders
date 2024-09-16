@@ -43,3 +43,7 @@ function drawImage(ctx, img, x, y, width, height, angle) {
     ctx.drawImage(img, width / -2, height / -2, width, height);
     ctx.restore();
 }
+
+function lerp(currentValue, targetValue, speed) {
+    return currentValue + (targetValue - currentValue) * speed;
+}

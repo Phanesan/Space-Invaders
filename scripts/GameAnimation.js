@@ -1,6 +1,10 @@
 class GameAnimation {
+    static nextID() {
+        return ID_COUNTER++;
+    }
 
     constructor(name, gameState, animationDuration, callback, timeBeforeStart = undefined, executeAnimationAfterThis = undefined, loop = false) {
+        this.ID = GameAnimation.nextID();
         this.name = name;
         this.gameState = gameState;
         this.animationDuration = animationDuration;
@@ -24,9 +28,17 @@ class GameAnimation {
         this.elapsedSeconds = 0;
 
         this.startTime = Date.now();
+
+        this.executed = false;
     }
 
     animate() {
+
+        if(this.executed === false) {
+            this.executed = true;
+            this.startTime = Date.now();
+        }
+
         if(this.startAnimation === false) {
             this.currentTime = Date.now();
             this.elapsedTime = this.currentTime - this.startTime;
@@ -80,7 +92,7 @@ class GameAnimation {
             }
         }
 
-        this.gameState.destroyAnimation(this);
+        this.gameState.destroyAnimation(this.ID);
     }
 
     pause() {

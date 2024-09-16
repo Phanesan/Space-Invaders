@@ -34,6 +34,7 @@ class StartingState extends GameState {
             const startOpacity = 0;
             const endOpacity = 1;
             let opacity;
+            console.log(data.elapsedTime)
 
             if(data.elapsedTime >= data.animationDuration-350) {
                 opacity = startOpacity - (endOpacity - startOpacity) * (data.elapsedTime - data.animationDuration) / 350;
@@ -43,7 +44,7 @@ class StartingState extends GameState {
 
             this.gameManager.ctx.globalAlpha = opacity;
             this.gameManager.ctx.drawImage(controlesBanner,this.gameManager.DOC.width / 2 - 640, this.gameManager.DOC.height / 2 - 360, 1280, 720);
-        },200, () => {
+        },undefined, () => {
             this.gameManager.ctx.globalAlpha = 0;
         })));
     }
