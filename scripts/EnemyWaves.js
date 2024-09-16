@@ -78,7 +78,6 @@ class EnemyWaves {
                 }
             }
 
-            //console.log(`totalenemiesperwave: ${this.totalEnemiesPerWave}/${this.enemiesCleared}`);
             if(this.enemiesCleared === this.totalEnemiesPerWave) {
                 //console.log("wave cleared");
 
