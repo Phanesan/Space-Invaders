@@ -91,7 +91,7 @@ class GameManager {
                 this.gameState.enemyWaveSystem.enemiesCleared++;
                 this.gameState.enemyWaveSystem.livingEnemies--;
             }
-            if(probability(0.9)) {
+            if(probability(1)) {
                 this.gameState.addGameObject(new Star(this.gameState, "star", eventData.x, eventData.y, 50, 50, "./assets/star/"));
             }
         });

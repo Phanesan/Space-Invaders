@@ -34,7 +34,7 @@ class StartingState extends GameState {
             const startOpacity = 0;
             const endOpacity = 1;
             let opacity;
-            console.log(data.elapsedTime)
+            //console.log(data.elapsedTime)
 
             if(data.elapsedTime >= data.animationDuration-350) {
                 opacity = startOpacity - (endOpacity - startOpacity) * (data.elapsedTime - data.animationDuration) / 350;

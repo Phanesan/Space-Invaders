@@ -2,9 +2,12 @@ class Player extends GameObject {
 
     constructor(gameState, name, x, y, width, height, asset = null) {
         super(gameState, name, x, y, width, height, asset);
+        
+        this.lastTime = Date.now();
+        this.deltaTime = 0;
 
-        this.speedX = 3;
-        this.speedY = 2.5;
+        this.speedX = 378;
+        this.speedY = 330;
         this.health = 100;
         this.maxHealth = this.health;
         this.damageByShot = 10;
@@ -28,6 +31,10 @@ class Player extends GameObject {
     }
 
     update() {
+        const currentTime = Date.now();
+        this.deltaTime = (currentTime - this.lastTime)/1000;
+        this.lastTime = currentTime;
+
         this.healthBar.update(this.health, this.x-10, this.y-15, this.maxHealth);
         
         if(this.levelUpProgress >= this.levelUpGoal) {
@@ -60,21 +67,22 @@ class Player extends GameObject {
 
         this.gameState.gameManager.keyManager.keys.forEach((key) => {
             if(!this.gameState.enemyWaveSystem.win) {
+                console.log(this.speedX * this.deltaTime)
                 if(key === "KeyD") {
                     if(this.x + this.width <= this.gameState.gameManager.DOC.width) {
-                        this.x += this.speedX;
+                        this.x += this.speedX * this.deltaTime;
                     }
                 } else if(key === "KeyA") {
                     if(this.x > 0) {
-                        this.x -= this.speedX;
+                        this.x -= this.speedX * this.deltaTime;
                     }
                 } else if(key === "KeyW") {
                     if(this.y > 0) {
-                        this.y -= this.speedY;
+                        this.y -= this.speedY * this.deltaTime;
                     }
                 } else if(key === "KeyS") {
                     if(this.y + this.height <= this.gameState.gameManager.DOC.height) {
-                        this.y += this.speedY;
+                        this.y += this.speedY * this.deltaTime;
                     }
                 } else if(key === 0) {
                     // Cooldown de disparo

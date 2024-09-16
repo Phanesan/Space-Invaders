@@ -19,7 +19,7 @@ class EnemySpacecraft extends GameObject {
             this.cooldownShot = 1300;
         } else if(this.name === "enemyDestroyer") {
             this.enemyAsset = new GifDrawer(this.gameState.gameManager, this.asset, this.x, this.y, this.width, this.height, 130, 2, 0);
-            this.cooldownShot = 800;
+            this.cooldownShot = 1100;
         }
         this.gameState.addGif(this.enemyAsset);
         this.lastShotTime = Date.now()+300;
@@ -93,9 +93,10 @@ class EnemySpacecraft extends GameObject {
     }
 
     collision(other) {
+        console.log(`other: ${other.sourceEntity} | this: ${this.name}`);
         switch(other.name) {
             case "bulletFired":
-                if(other.sourceEntity !== this.name) {
+                if(other.sourceEntity === "player") {
                     this.health -= other.damageBullet;
                     this.gameState.destroyGameObject(other.ID);
                     playSound("./assets/audios/hit_enemy.ogg", 0.7);
