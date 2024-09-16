@@ -90,17 +90,14 @@ class EnemyWaves {
                     case 4:
                         this.timeBeetweenDiceRolls = 5000;
                         break;
-                    case 7:
+                    case 12:
                         this.timeBeetweenDiceRolls = 4500;
                         break;
-                    case 10:
+                    case 19:
                         this.timeBeetweenDiceRolls = 3500;
                         break;
-                    case 15:
+                    case 28:
                         this.timeBeetweenDiceRolls = 2500;
-                        break;
-                    case 20:
-                        this.timeBeetweenDiceRolls = 1000;
                         break;
                 }
 
@@ -128,30 +125,24 @@ class EnemyWaves {
                     case 10:
                         this.baseEnemiesSpawn = 3;
                         break;
-                    case 18:
+                    case 26:
                         this.baseEnemiesSpawn = 4;
-                        break;
-                    case 25:
-                        this.baseEnemiesSpawn = 5;
                         break;
                 }
 
                 // Aumenta el maximo de enemigos por spawn
                 switch(this.currentWave) {
-                    case 2:
+                    case 4:
                         this.EnemySpawnMax = 3;
                         break;
-                    case 8:
+                    case 11:
                         this.EnemySpawnMax = 4;
                         break;
-                    case 15:
+                    case 22:
                         this.EnemySpawnMax = 5;
                         break;
-                    case 22:
+                    case 29:
                         this.EnemySpawnMax = 6;
-                        break;
-                    case 26:
-                        this.EnemySpawnMax = 8;
                         break;
                 }
 

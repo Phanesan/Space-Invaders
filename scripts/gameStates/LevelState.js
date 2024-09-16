@@ -151,13 +151,13 @@ class LevelState extends GameState {
     spawnEnemy(type, x = Math.floor(Math.random()*((this.gameManager.DOC.width-380)-380+1)) + 320) {
         switch(type) {
             case "enemySpacecraft":
-                this.addGameObject(new EnemySpacecraft(this, "normal", x, -120, 60, 55, "./assets/enemy_1/", 40));
+                this.addGameObject(new EnemySpacecraft(this, "normal", x, -120, 60, 55, "./assets/enemy_1/", 30));
                 break;
             case "enemyCruiser":
-                this.addGameObject(new EnemySpacecraft(this, "enemyCruiser", x, -120, 90, 85, "./assets/enemy_2/", 80));
+                this.addGameObject(new EnemySpacecraft(this, "enemyCruiser", x, -120, 90, 85, "./assets/enemy_2/", 70));
                 break;
             case "enemyDestroyer":
-                this.addGameObject(new EnemySpacecraft(this, "enemyDestroyer", x, -120, 150, 140, "./assets/enemy_3/", 180));
+                this.addGameObject(new EnemySpacecraft(this, "enemyDestroyer", x, -120, 150, 140, "./assets/enemy_3/", 150));
                 break;
             default:
                 this.addGameObject(new EnemySpacecraft(this, "normal", x, -120, 60, 55, "./assets/enemy_1/", 40));
