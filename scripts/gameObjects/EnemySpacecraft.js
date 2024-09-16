@@ -8,10 +8,17 @@ class EnemySpacecraft extends GameObject {
         this.lastY = y;
         this.y = -100
 
-        this.enemyAsset = new GifDrawer(this.gameState.gameManager, this.asset, this.x, this.y, this.width, this.height, 120, 2, 180);
-        this.gameState.addGif(this.enemyAsset);
+        this.enemyAsset = null;
+        this.cooldownShot = 0;
 
-        this.cooldownShot = 1800;
+        if(this.name === "normal") {
+            this.enemyAsset = new GifDrawer(this.gameState.gameManager, this.asset, this.x, this.y, this.width, this.height, 120, 2, 180);
+            this.cooldownShot = 1800;
+        } else if(this.name === "enemyCruiser") {
+            this.enemyAsset = new GifDrawer(this.gameState.gameManager, this.asset, this.x, this.y, this.width, this.height, 100, 4, 180);
+            this.cooldownShot = 1300;
+        }
+        this.gameState.addGif(this.enemyAsset);
         this.lastShotTime = Date.now()+300;
         
         this.acceleration = 2;
@@ -34,7 +41,6 @@ class EnemySpacecraft extends GameObject {
             this.gameState.addAnimation(new GameAnimation("enemyLanding", this.gameState, Math.floor(Math.random() * (1100 - 300 + 1)) + 300, (data) => {
                 this.y+=3
                 this.enemyAsset.y = this.y;
-                console.log("landing")
                 this.executedTaskLanding = true;
             }, undefined,
             () => {
@@ -45,13 +51,19 @@ class EnemySpacecraft extends GameObject {
 
         if(this.spawnLanding === false) {
             this.movement();
+            
             this.enemyAsset.x = this.x;
     
             // Cooldown de disparo del enemigo (dispara de forma automatica)
             if(this.cooldownShot <= 0 || Date.now() - this.lastShotTime >= this.cooldownShot) {
                 this.lastShotTime = Date.now();
-                playSound("./assets/audios/laser_shot.ogg", 0.15);
-                this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 18, 18, "./assets/bullet_enemy.png", this.name, 10, 3, 90));
+                playSound("./assets/audios/laser_shot.ogg", 0.1);
+                if(this.name === "normal") {
+                    this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 18, 18, "./assets/bullet_enemy.png", this.name, 10, 3, 90));
+                } else if(this.name === "enemyCruiser") {
+                    this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 18, 18, "./assets/bullet_enemy.png", this.name, 10, 3, 70, 20));
+                    this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 18, 18, "./assets/bullet_enemy.png", this.name, 10, 3, 110, 340));
+                }
             }
     
             this.gameState.gameObjects.forEach((obj) => {
@@ -121,7 +133,7 @@ class EnemySpacecraft extends GameObject {
                     undefined,
                     new GameAnimation("LeftMoveLeaving",
                         this.gameState,
-                        1100,
+                        1300,
                         (data) => {
                             this.velocity = (this.initialVelocity + this.acceleration * data.progress);
                             this.nextDistanceMove = this.velocity

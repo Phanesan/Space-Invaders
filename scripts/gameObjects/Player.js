@@ -6,6 +6,7 @@ class Player extends GameObject {
         this.speedX = 3;
         this.speedY = 2.5;
         this.health = 100;
+        this.maxHealth = this.health;
         this.damageByShot = 10;
 
         this.lastX = x;
@@ -16,13 +17,46 @@ class Player extends GameObject {
 
         this.cooldownShot = 600;
         this.lastShotTime = 0;
-        this.levelSpacecraft = 0; // Nivel 0,1,2,3,4
+        this.levelSpacecraft = 3; // Nivel 0,1,2,3,4
+        this.levelUpProgress = 0;
+        this.levelUpGoal = 40;
+
+        this.cooldownDmgTaken = 1200;
+        this.lastDmgTaken = 0;
 
         this.healthBar = new HealthBar(this.gameState, "healthBar", this.x - 10, this.y - 15, 80, 8, "green", this.health);
     }
 
     update() {
-        this.healthBar.update(this.health, this.x-10, this.y-15);
+        this.healthBar.update(this.health, this.x-10, this.y-15, this.maxHealth);
+        
+        if(this.levelUpProgress >= this.levelUpGoal) {
+            if(this.levelSpacecraft < 5) {
+                this.levelSpacecraft++;
+                switch(this.levelSpacecraft) {
+                    case 1: {
+                        this.levelUpGoal = 60;
+                        this.levelUpProgress = 0;
+                        break;
+                    }
+                    case 2: {
+                        this.levelUpGoal = 100
+                        this.levelUpProgress = 0;
+                        break;
+                    }
+                    case 3: {
+                        this.levelUpGoal = 150
+                        this.levelUpProgress = 0;
+                        break;
+                    }
+                    case 4: {
+                        this.levelUpGoal = 200
+                        this.levelUpProgress = 200;
+                        break;
+                    }
+                }
+            }
+        }
 
         this.gameState.gameManager.keyManager.keys.forEach((key) => {
             if(key === "KeyD") {
@@ -61,7 +95,7 @@ class Player extends GameObject {
                         this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 8, 36, "./assets/bullet.png", this.name, this.damageByShot, 6, 270, 0));
                         this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 8, 36, "./assets/bullet.png", this.name, this.damageByShot, 6, 260, 350));
                         this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 8, 36, "./assets/bullet.png", this.name, this.damageByShot, 6, 280, 10));
-                    } else if(this.levelSpacecraft === 4) {
+                    } else if(this.levelSpacecraft >= 4) {
                         this.cooldownShot = 150;
                         this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 8, 36, "./assets/bullet.png", this.name, this.damageByShot, 6, 270, 0));
                         this.gameState.addGameObject(new BulletFired(this.gameState, "bulletFired", this.x + (this.width / 2), this.y + (this.height / 2) - 30, 8, 36, "./assets/bullet.png", this.name, this.damageByShot, 6, 260, 350));
@@ -94,9 +128,57 @@ class Player extends GameObject {
         switch(other.name) {
             case "bulletFired":
                 if(other.sourceEntity !== this.name) {
-                    this.health -= other.damageBullet;
-                    this.gameState.destroyGameObject(other.ID);
+                    if(this.cooldownDmgTaken <= 0 || Date.now() - this.lastDmgTaken >= this.cooldownDmgTaken) {
+                        this.lastDmgTaken = Date.now();
+                        this.health -= other.damageBullet;
+                        this.gameState.destroyGameObject(other.ID);
+                        if(this.levelSpacecraft > 0) {
+                            this.levelSpacecraft -= 1;
+                            //console.log(`level: ${this.levelSpacecraft}, progress: ${this.levelUpProgress}, goal: ${this.levelUpGoal}`);
+
+                            switch(this.levelSpacecraft) {
+                                case 0: {
+                                    this.levelUpGoal = 40;
+                                    this.levelUpProgress = 0;
+                                    break;
+                                }
+                                case 1: {
+                                    this.levelUpGoal = 60;
+                                    this.levelUpProgress = 0;
+                                    break;
+                                }
+                                case 2: {
+                                    this.levelUpGoal = 100
+                                    this.levelUpProgress = 0;
+                                    break;
+                                }
+                                case 3: {
+                                    this.levelUpGoal = 150
+                                    this.levelUpProgress = 0;
+                                    break;
+                                }
+                                case 4: {
+                                    this.levelUpGoal = 200
+                                    this.levelUpProgress = 0;
+                                    break;
+                                }
+                            }
+                        }
+                    }
                 }
+                break;
+            case "enemySpacecraft":
+                if(this.cooldownDmgTaken <= 0 || Date.now() - this.lastDmgTaken >= this.cooldownDmgTaken) {
+                    this.lastDmgTaken = Date.now();
+                    this.health -= 20;
+                }
+                break;
+            case "star":
+                if(this.levelSpacecraft < 5) {
+                    this.levelUpProgress+=other.amountOfProgress;
+                }
+                this.gameState.destroyGameObject(other.ID);
+                this.gameState.destroyGif(other.asset);
                 break;
         }
     }

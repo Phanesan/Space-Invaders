@@ -32,8 +32,8 @@ class BulletFired extends GameObject {
             }
         })
 
-        if(this.y <= -50) {
-            this.gameState.destroyGameObject(this);
+        if(this.y <= -50 || this.y >= this.gameState.gameManager.DOC.height+50) {
+            this.gameState.destroyGameObject(this.ID);
         }
 
     }

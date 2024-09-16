@@ -6,7 +6,7 @@ class GameManager {
         this.gameState = null;
         this.DOC = document.getElementById("canvas");
         this.ctx = this.DOC.getContext("2d");
-        this.debug = true;
+        this.debug = false;
 
         this.keyManager = new KeyManager();
         this.eventManager = new EventManager();
@@ -87,6 +87,13 @@ class GameManager {
         this.eventManager.registerEvent("onEnemyDestroyed", (eventData) => {
             this.gameState.destroyGif(eventData.enemyAsset);
             this.gameState.destroyGameObject(eventData.ID);
+            if(this.gameState instanceof LevelState) {
+                this.gameState.enemyWaveSystem.enemiesCleared++;
+                this.gameState.enemyWaveSystem.livingEnemies--;
+            }
+            if(probability(1)) {
+                this.gameState.addGameObject(new Star(this.gameState, "star", eventData.x, eventData.y, 50, 50, "./assets/star/"));
+            }
         });
 
         this.eventManager.registerEvent("onPlayerDestroyed", (eventData) => {

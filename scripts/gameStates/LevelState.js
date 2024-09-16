@@ -4,6 +4,10 @@ class LevelState extends GameState {
         super(gameManager);
         this.initEvents();
         this.level = level;
+        this.enemyWaveSystem = new EnemyWaves(this);
+
+        this.starUI = new GifDrawer(this.gameManager, "./assets/star/", 15, 18, 40, 40, 1400, 7);
+        this.addGif(this.starUI);
 
         if(this.level === 1) {
             this.soundtrack = new Soundtrack(this, "./assets/audios/level_1.ogg", 16.340, 0.25);
@@ -53,9 +57,10 @@ class LevelState extends GameState {
         }, undefined, undefined, true));
 
         // Nave jugador
-        this.addGameObject(new Player(this, "player", this.gameManager.DOC.width / 2, this.gameManager.DOC.height / 2 + 360, 60, 40, "./assets/spacecraft/"));
+        this.player = new Player(this, "player", this.gameManager.DOC.width / 2, this.gameManager.DOC.height / 2 + 360, 60, 40, "./assets/spacecraft/");
+        this.addGameObject(this.player);
 
-        this.spawnEnemy("enemySpacecraft");
+        this.levelUpProgressBar = new HealthBar(this, "levelUpProgressBar", 20, 20, 200, 40, "yellow", this.player.levelUpProgress);
 
         this.gameManager.executeCodeOnce(() => {
             this.soundtrack.play();
@@ -63,8 +68,13 @@ class LevelState extends GameState {
     }
 
     update() {
+        this.levelUpProgressBar.update(this.player.levelUpProgress, 70, 20, this.player.levelUpGoal);
+
+        this.enemyWaveSystem.update();
+
         this.soundtrack.update();
 
+        //console.log(this.gameObjects);
         this.gameObjects.forEach((obj) => {
             obj.update();
         });
@@ -91,11 +101,11 @@ class LevelState extends GameState {
         this.UI();
     }
 
-    UI() {}
-
-    initEvents() {
-        
+    UI() {
+        this.levelUpProgressBar.paint();
     }
+
+    initEvents() {}
 
     onPause() {
         this.soundtrack.audioSource.pause();
@@ -111,14 +121,16 @@ class LevelState extends GameState {
         });
     }
 
-    spawnEnemy(type, x = Math.floor(Math.random()*((this.gameManager.DOC.width-320)-320+1)) + 320,
-                    y = Math.floor(Math.random()*((this.gameManager.DOC.height/2+50)-25+1)) + 25) {
+    spawnEnemy(type, x = Math.floor(Math.random()*((this.gameManager.DOC.width-380)-380+1)) + 320) {
         switch(type) {
             case "enemySpacecraft":
-                this.addGameObject(new EnemySpacecraft(this, "enemy", x, -120, 60, 55, "./assets/enemy_1/", 30));
+                this.addGameObject(new EnemySpacecraft(this, "normal", x, -120, 60, 55, "./assets/enemy_1/", 40));
+                break;
+            case "enemyCruiser":
+                this.addGameObject(new EnemySpacecraft(this, "enemyCruiser", x, -120, 90, 85, "./assets/enemy_2/", 80));
                 break;
             default:
-                this.addGameObject(new EnemySpacecraft(this, "enemy", x, -120, 60, 55, "./assets/enemy_1/", 30));
+                this.addGameObject(new EnemySpacecraft(this, "normal", x, -120, 60, 55, "./assets/enemy_1/", 40));
                 break;
         }
     }

@@ -12,13 +12,13 @@ class HealthBar {
         this.health = this.maxHealth;
     }
 
-    // Pintar barra de vida dependiendo de su vida maxima y la actual
     paint() {
         drawRect(this.gameState.gameManager.ctx, this.x, this.y, this.width * (this.health / this.maxHealth), this.height, this.color, 1, 1);
-        drawSquare(this.gameState.gameManager.ctx, this.x, this.y, this.width, this.height, "green", 1, 1);
+        drawSquare(this.gameState.gameManager.ctx, this.x, this.y, this.width, this.height, "red", 1, 1);
     }
 
-    update(health, x, y) {
+    update(health, x, y, maxHealth) {
+        this.maxHealth = maxHealth;
         this.health = health;
         this.x = x;
         this.y = y;

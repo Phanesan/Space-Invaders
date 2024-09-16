@@ -44,6 +44,6 @@ function drawImage(ctx, img, x, y, width, height, angle) {
     ctx.restore();
 }
 
-function lerp(currentValue, targetValue, speed) {
-    return currentValue + (targetValue - currentValue) * speed;
+function probability(prob) {
+    return Math.random() < prob;
 }
