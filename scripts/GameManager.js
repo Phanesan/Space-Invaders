@@ -17,7 +17,7 @@ class GameManager {
         this.initEvents();
 
         // iniciar el juego
-        this.changeGameState(new LevelState(this));
+        this.changeGameState(new StartingState(this));
     }
 
     update() {

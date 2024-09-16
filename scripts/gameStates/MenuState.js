@@ -72,7 +72,7 @@ class MenuState extends GameState {
 
 
         drawText(this.gameManager.ctx, 'SPACE INVADERS', this.gameManager.DOC.width / 2, 130, 150, 'space_invaders', '#F8FF93', 'center', 'middle', 0);
-        drawText(this.gameManager.ctx, `Nivel ${1}`, this.gameManager.DOC.width / 2, this.gameManager.DOC.height / 2, 60, 'space_invaders_text', '#6EFF64', 'center', 'middle', 1, '#1FFF00');
+        drawText(this.gameManager.ctx, `Sobrevive 30 oleadas`, this.gameManager.DOC.width / 2, this.gameManager.DOC.height / 2, 60, 'space_invaders_text', '#6EFF64', 'center', 'middle', 1, '#1FFF00');
     }
 
     initEvents() {}
