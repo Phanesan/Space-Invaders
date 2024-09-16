@@ -6,8 +6,8 @@ class Player extends GameObject {
         this.lastTime = Date.now();
         this.deltaTime = 0;
 
-        this.speedX = 378;
-        this.speedY = 330;
+        this.speedX = 430;
+        this.speedY = 390;
         this.health = 100;
         this.maxHealth = this.health;
         this.damageByShot = 10;
